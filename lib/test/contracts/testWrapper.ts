@@ -1,5 +1,4 @@
 "use strict";
-import { AbsoluteVoteParams } from "contracts/absoluteVote";
 import { Hash } from "../../commonTypes";
 import ContractWrapperFactory from "../../ContractWrapperFactory";
 import { ArcTransactionDataResult, ExtendTruffleContract } from "../../ExtendTruffleContract";
@@ -23,7 +22,8 @@ export class TestWrapperWrapper extends ExtendTruffleContract {
       },
       params);
 
-    return super.setParameters(
+    return super._setParams(
+      ["address", "uint", "bool"],
       params.reputation,
       params.votePerc,
       params.ownerVote

@@ -405,7 +405,8 @@ export class ContributionRewardWrapper extends ExtendTruffleContract {
       },
       params);
 
-    return super.setParameters(
+    return super._setParams(
+      ["uint", "bytes32", "address"],
       params.orgNativeTokenFee,
       params.voteParametersHash,
       params.votingMachineAddress
