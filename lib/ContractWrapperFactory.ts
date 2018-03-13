@@ -1,4 +1,4 @@
-import { ExtendTruffleContract } from "ExtendTruffleContract";
+import { ExtendTruffleContract } from "./ExtendTruffleContract";
 import { Utils } from "./utils";
 
 export default class ContractWrapperFactory<TContract extends ExtendTruffleContract> {
