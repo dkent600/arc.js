@@ -15,6 +15,14 @@ import {
 import { Utils } from "../utils";
 
 export class DaoCreatorWrapper extends ExtendTruffleContract {
+  /**
+   * Name used by Arc.js.Contracts and Arc.
+   */
+  public shortName: string = "DaoCreator";
+  /**
+   * Friendly name of the contract
+   */
+  public longName: string = "Dao Creator";
 
   /**
    * Events
@@ -137,19 +145,14 @@ export class DaoCreatorWrapper extends ExtendTruffleContract {
         throw new Error("options.schemes[n].name is not defined");
       }
 
-      const contracts = await Contracts.getDeployedContracts();
-      const arcSchemeInfo = contracts.allContracts[schemeOptions.name];
-
-      if (!arcSchemeInfo) {
-        throw new Error("Non-arc schemes are not currently supported here.  You can add them later in your workflow.");
-      }
-
       /**
        * scheme will be a contract wrapper
        */
-      const scheme = await arcSchemeInfo.contract.at(
-        schemeOptions.address || arcSchemeInfo.address
-      );
+      const scheme = await Contracts.getContractWrapper(schemeOptions.name, schemeOptions.address);
+
+      if (!scheme) {
+        throw new Error("Non-arc schemes are not currently supported here.  You can add them later in your workflow.");
+      }
 
       let schemeVotingMachineParams = schemeOptions.votingMachineParams;
       let schemeVoteParametersHash;

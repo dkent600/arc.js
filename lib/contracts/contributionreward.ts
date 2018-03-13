@@ -23,6 +23,14 @@ import {
 } from "./commonEventInterfaces";
 
 export class ContributionRewardWrapper extends ExtendTruffleContract {
+  /**
+   * Name used by Arc.js.Contracts and Arc.
+   */
+  public shortName: string = "ContributionReward";
+  /**
+   * Friendly name of the contract
+   */
+  public longName: string = "Contribution Reward";
 
   /**
    * Events

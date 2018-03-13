@@ -12,6 +12,7 @@ import {
   EventFetcherFactory,
   ExtendTruffleContract,
 } from "../ExtendTruffleContract";
+import { LoggingService } from "../loggingService";
 import { Utils } from "../utils";
 import {
   ExecuteProposalEventResult,
@@ -21,6 +22,14 @@ import {
 } from "./commonEventInterfaces";
 
 export class GenesisProtocolWrapper extends ExtendTruffleContract {
+  /**
+   * Name used by Arc.js.Contracts and Arc.
+   */
+  public shortName: string = "GenesisProtocol";
+  /**
+   * Friendly name of the contract
+   */
+  public longName: string = "Genesis Protocol";
 
   /**
    * Events
@@ -864,19 +873,19 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
 
     params = Object.assign({},
       {
-        boostedVotePeriodLimit: 60,
+        boostedVotePeriodLimit: 604800,
         governanceFormulasInterface: Utils.NULL_ADDRESS,
         minimumStakingFee: 0,
-        preBoostedVotePeriodLimit: 60,
+        preBoostedVotePeriodLimit: 5184000,
         preBoostedVoteRequiredPercentage: 50,
-        proposingRepRewardConstA: 1,
-        proposingRepRewardConstB: 1,
-        quietEndingPeriod: 0,
+        proposingRepRewardConstA: 5,
+        proposingRepRewardConstB: 5,
+        quietEndingPeriod: 7200,
         stakerFeeRatioForVoters: 1,
-        thresholdConstA: 1,
-        thresholdConstB: 1,
+        thresholdConstA: 2,
+        thresholdConstB: 10,
         votersGainRepRatioFromLostRep: 80,
-        votersReputationLossRatio: 10,
+        votersReputationLossRatio: 1,
       },
       params);
 
@@ -888,8 +897,23 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
       throw new Error("preBoostedVoteRequiredPercentage must be greater than 0 and less than or equal to 100");
     }
 
-    return super._setParams(
-      ["uint12", "address"],
+    const types = [
+      "uint",
+      "uint",
+      "uint",
+      "uint",
+      "uint",
+      "uint",
+      "uint",
+      "uint",
+      "uint",
+      "uint",
+      "uint",
+      "uint",
+      "address",
+    ];
+
+    const apiParams = [
       [
         params.preBoostedVoteRequiredPercentage,
         params.preBoostedVotePeriodLimit,
@@ -904,8 +928,36 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
         params.votersReputationLossRatio,
         params.votersGainRepRatioFromLostRep,
       ],
-      params.governanceFormulasInterface
-    );
+      params.governanceFormulasInterface,
+    ];
+
+    const paramsAsHashed = [
+      params.preBoostedVoteRequiredPercentage,
+      params.preBoostedVotePeriodLimit,
+      params.boostedVotePeriodLimit,
+      params.thresholdConstA,
+      params.thresholdConstB,
+      params.minimumStakingFee,
+      params.quietEndingPeriod,
+      params.proposingRepRewardConstA,
+      params.proposingRepRewardConstB,
+      params.stakerFeeRatioForVoters,
+      params.votersReputationLossRatio,
+      params.votersGainRepRatioFromLostRep,
+      params.governanceFormulasInterface,
+    ];
+
+    const parametersHash: Hash = await this.contract.getParametersHash(...apiParams);
+
+    if (!(await Utils.parametersHashExists(this, types, paramsAsHashed))) {
+      const tx = await this.contract.setParameters(...apiParams);
+
+      LoggingService.debug(`setParams: returning new hash: ${parametersHash} for ${this.shortName}`);
+      return new ArcTransactionDataResult<Hash>(tx, parametersHash);
+    } else {
+      LoggingService.debug(`setParams: returning existing hash: ${parametersHash} for ${this.shortName}`);
+      return new ArcTransactionDataResult<Hash>(null, parametersHash);
+    }
   }
 
   public getDefaultPermissions(overrideValue?: string): string {

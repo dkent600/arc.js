@@ -18,7 +18,14 @@ import { Utils } from "./utils";
  *   export { AbsoluteVote };
  */
 export abstract class ExtendTruffleContract {
-
+  /**
+   * Name used by Arc.js.Contracts and Arc.
+   */
+  public shortName: string;
+  /**
+   * Friendly name of the contract
+   */
+  public longName: string;
   /**
    * The underlying truffle contract object.  Use this to access
    * parts of the contract that aren't accessible via the wrapper.
@@ -233,10 +240,10 @@ export abstract class ExtendTruffleContract {
      */
     if (!(await Utils.parametersHashExists(this, types, args))) {
       const tx = await this.contract.setParameters(...args);
-      // console.log(`returning new hash: ${parametersHash}`);
+      LoggingService.debug(`_setParams: returning new hash: ${parametersHash} for ${this.shortName}`);
       return new ArcTransactionDataResult<Hash>(tx, parametersHash);
     } else {
-      // console.log(`returning cached hash: ${parametersHash}`);
+      LoggingService.debug(`_setParams: returning existing hash: ${parametersHash} for ${this.shortName}`);
       return new ArcTransactionDataResult<Hash>(null, parametersHash);
     }
   }

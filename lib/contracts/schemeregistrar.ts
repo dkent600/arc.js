@@ -14,6 +14,14 @@ import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commo
 import ContractWrapperFactory from "../ContractWrapperFactory";
 
 export class SchemeRegistrarWrapper extends ExtendTruffleContract {
+  /**
+   * Name used by Arc.js.Contracts and Arc.
+   */
+  public shortName: string = "SchemeRegistrar";
+  /**
+   * Friendly name of the contract
+   */
+  public longName: string = "Scheme Registrar";
 
   /**
    * Events

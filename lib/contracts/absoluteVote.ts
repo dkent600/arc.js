@@ -12,6 +12,14 @@ import {
 import { ExecuteProposalEventResult, NewProposalEventResult, VoteProposalEventResult } from "./commonEventInterfaces";
 
 export class AbsoluteVoteWrapper extends ExtendTruffleContract {
+  /**
+   * Name used by Arc.js.Contracts and Arc.
+   */
+  public shortName: string = "AbsoluteVote";
+  /**
+   * Friendly name of the contract
+   */
+  public longName: string = "Absolute Vote";
 
   /**
    * Events

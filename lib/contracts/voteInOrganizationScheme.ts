@@ -12,6 +12,14 @@ import {
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
+  /**
+   * Name used by Arc.js.Contracts and Arc.
+   */
+  public shortName: string = "VoteInOrganizationScheme";
+  /**
+   * Friendly name of the contract
+   */
+  public longName: string = "Vote In Organization Scheme";
 
   /**
    * Events

@@ -4,6 +4,14 @@ import ContractWrapperFactory from "../../ContractWrapperFactory";
 import { ArcTransactionDataResult, ExtendTruffleContract } from "../../ExtendTruffleContract";
 
 export class TestWrapperWrapper extends ExtendTruffleContract {
+  /**
+   * Name used by Arc.js.Contracts and Arc.
+   */
+  public shortName: string = "TestWrapper";
+  /**
+   * Friendly name of the contract
+   */
+  public longName: string = "Test Wrapper";
 
   public foo(): string {
     return "bar";

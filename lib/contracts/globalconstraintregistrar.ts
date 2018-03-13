@@ -12,6 +12,14 @@ import {
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 export class GlobalConstraintRegistrarWrapper extends ExtendTruffleContract {
+  /**
+   * Name used by Arc.js.Contracts and Arc.
+   */
+  public shortName: string = "GlobalConstraintRegistrar";
+  /**
+   * Friendly name of the contract
+   */
+  public longName: string = "Global Constraint Registrar";
 
   /**
    * Events

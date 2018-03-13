@@ -33,6 +33,14 @@ const defaultCreateOptions = {
 };
 
 export class VestingSchemeWrapper extends ExtendTruffleContract {
+  /**
+   * Name used by Arc.js.Contracts and Arc.
+   */
+  public shortName: string = "VestingScheme";
+  /**
+   * Friendly name of the contract
+   */
+  public longName: string = "Vesting Scheme";
 
   /**
    * Events

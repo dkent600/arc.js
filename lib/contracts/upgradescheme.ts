@@ -13,6 +13,14 @@ import ContractWrapperFactory from "../ContractWrapperFactory";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 export class UpgradeSchemeWrapper extends ExtendTruffleContract {
+  /**
+   * Name used by Arc.js.Contracts and Arc.
+   */
+  public shortName: string = "UpgradeScheme";
+  /**
+   * Friendly name of the contract
+   */
+  public longName: string = "Upgrade Scheme";
 
   /**
    * Events

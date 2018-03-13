@@ -8,6 +8,15 @@ import {
 import ContractWrapperFactory from "../ContractWrapperFactory";
 
 export class TokenCapGCWrapper extends ExtendTruffleContract {
+  /**
+   * Name used by Arc.js.Contracts and Arc.
+   */
+  public shortName: string = "TokenCapGC";
+  /**
+   * Friendly name of the contract
+   */
+  public longName: string = "Token Cap GC";
+
   public async setParameters(params: TokenCapGcParams): Promise<ArcTransactionDataResult<Hash>> {
 
     if (!params.token) {
