@@ -9,9 +9,9 @@ import {
   ExtendTruffleContract,
   StandardSchemeParams,
 } from "../ExtendTruffleContract";
-import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
-import { Utils } from "../utils";
 import { LoggingService } from "../loggingService";
+import { Utils } from "../utils";
+import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
   /**
@@ -78,12 +78,12 @@ export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
 
     const apiParams = [
       params.voteParametersHash,
-      params.votingMachineAddress
+      params.votingMachineAddress,
     ];
 
     const paramsAsHashed = [
       params.votingMachineAddress,
-      params.voteParametersHash
+      params.voteParametersHash,
     ];
 
     const parametersHash: Hash = await this.contract.getParametersHash(...apiParams);
