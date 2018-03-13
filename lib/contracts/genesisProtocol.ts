@@ -950,7 +950,7 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
       params.governanceFormulasInterface,
     ];
 
-    return super._setParams(types, apiParams, paramsAsHashed);
+    return super._setParameters(types, apiParams, paramsAsHashed);
   }
 
   public getDefaultPermissions(overrideValue?: string): string {
