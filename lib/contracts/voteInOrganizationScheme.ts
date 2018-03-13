@@ -10,6 +10,8 @@ import {
   StandardSchemeParams,
 } from "../ExtendTruffleContract";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
+import { Utils } from "../utils";
+import { LoggingService } from "../loggingService";
 
 export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
   /**
@@ -67,11 +69,34 @@ export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
   }
 
   public async setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
-    return super._setParams(
-      ["address", "bytes32"],
+
+    /**
+     * special casing required here because Arc orders the parameters in the Parameters struct
+     * differently than when they are supplied to the setParameters function.
+     */
+    const types = ["address", "bytes32"];
+
+    const apiParams = [
       params.voteParametersHash,
       params.votingMachineAddress
-    );
+    ];
+
+    const paramsAsHashed = [
+      params.votingMachineAddress,
+      params.voteParametersHash
+    ];
+
+    const parametersHash: Hash = await this.contract.getParametersHash(...apiParams);
+
+    if (!(await Utils.parametersHashExists(this, types, paramsAsHashed))) {
+      const tx = await this.contract.setParameters(...apiParams);
+
+      LoggingService.debug(`setParams: returning new hash: ${parametersHash} for ${this.shortName}`);
+      return new ArcTransactionDataResult<Hash>(tx, parametersHash);
+    } else {
+      LoggingService.debug(`setParams: returning existing hash: ${parametersHash} for ${this.shortName}`);
+      return new ArcTransactionDataResult<Hash>(null, parametersHash);
+    }
   }
 
   public getDefaultPermissions(overrideValue?: string): string {

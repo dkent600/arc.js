@@ -897,6 +897,10 @@ export class GenesisProtocolWrapper extends ExtendTruffleContract {
       throw new Error("preBoostedVoteRequiredPercentage must be greater than 0 and less than or equal to 100");
     }
 
+    /**
+     * Special casing required here because Arc orders the parameters separately 
+     * in the Parameters struct but in an array when they are supplied to the setParameters function.
+     */
     const types = [
       "uint",
       "uint",
