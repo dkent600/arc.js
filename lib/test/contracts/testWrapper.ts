@@ -32,9 +32,7 @@ export class TestWrapperWrapper extends ExtendTruffleContract {
 
     return super._setParams(
       ["address", "uint", "bool"],
-      params.reputation,
-      params.votePerc,
-      params.ownerVote
+      [params.reputation, params.votePerc, params.ownerVote]
     );
   }
 

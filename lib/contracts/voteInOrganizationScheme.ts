@@ -9,8 +9,6 @@ import {
   ExtendTruffleContract,
   StandardSchemeParams,
 } from "../ExtendTruffleContract";
-import { LoggingService } from "../loggingService";
-import { Utils } from "../utils";
 import { ProposalDeletedEventResult, ProposalExecutedEventResult } from "./commonEventInterfaces";
 
 export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
@@ -86,17 +84,7 @@ export class VoteInOrganizationSchemeWrapper extends ExtendTruffleContract {
       params.voteParametersHash,
     ];
 
-    const parametersHash: Hash = await this.contract.getParametersHash(...apiParams);
-
-    if (!(await Utils.parametersHashExists(this, types, paramsAsHashed))) {
-      const tx = await this.contract.setParameters(...apiParams);
-
-      LoggingService.debug(`setParams: returning new hash: ${parametersHash} for ${this.shortName}`);
-      return new ArcTransactionDataResult<Hash>(tx, parametersHash);
-    } else {
-      LoggingService.debug(`setParams: returning existing hash: ${parametersHash} for ${this.shortName}`);
-      return new ArcTransactionDataResult<Hash>(null, parametersHash);
-    }
+    return super._setParams(types, apiParams, paramsAsHashed);
   }
 
   public getDefaultPermissions(overrideValue?: string): string {

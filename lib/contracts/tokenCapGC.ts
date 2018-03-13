@@ -31,8 +31,7 @@ export class TokenCapGCWrapper extends ExtendTruffleContract {
 
     return super._setParams(
       ["address", "uint"],
-      params.token,
-      params.cap);
+      [params.token, params.cap]);
   }
 }
 

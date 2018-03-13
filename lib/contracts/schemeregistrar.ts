@@ -180,9 +180,7 @@ export class SchemeRegistrarWrapper extends ExtendTruffleContract {
   public async setParams(params: StandardSchemeParams): Promise<ArcTransactionDataResult<Hash>> {
     return super._setParams(
       ["bytes32", "bytes32", "address"],
-      params.voteParametersHash,
-      params.voteParametersHash,
-      params.votingMachineAddress
+      [params.voteParametersHash, params.voteParametersHash, params.votingMachineAddress]
     );
   }
 
